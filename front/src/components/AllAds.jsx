@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AdsCard from './AdsCard';
 import adsService from '../services/adsServise';
-import Categories from './Categories';
+import Header from './Header';
 
 const AllAds = () => {
     const [ads, setAds] = useState([]);
@@ -37,7 +37,7 @@ const AllAds = () => {
 
     return (
         <div>
-            <Categories filterAds={filterAds} />
+            <Header filterAds={filterAds} />
             <AdsCard ads={ads} />
         </div>
     )
