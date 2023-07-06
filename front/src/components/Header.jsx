@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 
 import categoryService from '../services/categoryServise';
@@ -10,9 +11,12 @@ import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, reset } from '../features/authSlice';
+import { selectedCategory } from '../features/categorySlice'
 
-const Header = ({ filterAds }) => {
+const Header = () => {
     const [categories, setCategories] = useState([]);
+
+    const { category } = useSelector((state) => state.category);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -44,47 +48,121 @@ const Header = ({ filterAds }) => {
         <div>
             {
                 categories.length > 0 ? (
-                    <Navbar bg="dark" data-bs-theme="dark">
-                        <Container>
-                            <Link className='ink-offset-2 link-underline link-underline-opacity-0' to="/" >
-                                <Navbar.Brand to="/" >Skelbimai</Navbar.Brand>
-                            </Link>
-                            <Nav
-                                title="Kategorijos"
-                                id="basic-nav-dropdown"
-                                className="d-flex text-secondary-emphasis">
-                                <Nav.Link onClick={() => filterAds('All')}>
-                                    All
-                                </Nav.Link>
-                                {
-                                    categories.map((cat, index) => (
-                                        <Nav.Link key={index} onClick={() => filterAds(cat._id)}>{cat.name}</Nav.Link>
-                                    ))
-                                }
-                            </Nav>
-                        </Container>
-                        <ul className='d-flex m-0'>
-                            {user ? (
-                                <button className='btn btn-outline-light border-0' onClick={onLogout}>
-                                    <FaSignOutAlt /> Logout
-                                </button>
-                            ) : (
-                                <>
-                                    <li className='m-2'>
-                                        <Link className='ink-offset-2 link-underline link-underline-opacity-0 text-secondary-emphasis' to="/Login" >
-                                            <FaSignInAlt />Login
-                                        </Link>
-                                    </li>
-                                    <li className='m-2'>
-                                        <Link className='ink-offset-2 link-underline link-underline-opacity-0 text-secondary-emphasis' to="/Register" >
-                                            <FaUser />Register
-                                        </Link>
-                                    </li>
-                                </>
-                            )}
-                        </ul>
-                    </Navbar>
-                ) : <h2>kategoriju nera</h2>
+                    <>
+                        {['md'].map((expand) => (
+                            <Navbar key={expand} expand={expand} bg="dark" data-bs-theme="dark">
+                                <Container fluid>
+                                    <Link className='ink-offset-2 link-underline link-underline-opacity-0' to="/" >
+                                        <Navbar.Brand to="/" >Skelbimai</Navbar.Brand>
+                                    </Link>
+                                    <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+                                    <Navbar.Offcanvas
+                                        id={`offcanvasNavbar-expand-${expand}`}
+                                        aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+                                        placement="end"
+                                    >
+                                        <Offcanvas.Header closeButton>
+                                            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                                                Meniu
+                                            </Offcanvas.Title>
+                                        </Offcanvas.Header>
+                                        <Offcanvas.Body>
+                                            <Nav
+                                                title="Kategorijos"
+                                                id="basic-nav-dropdown"
+                                                className="d-flex text-secondary-emphasis">
+                                                <Nav.Link className='ms-5' onClick={() => dispatch(selectedCategory('All'))}>
+                                                    Visi
+                                                </Nav.Link>
+                                                {
+                                                    categories.map((cat, index) => (
+                                                        <Nav.Link className='ms-3' key={index} onClick={() => dispatch(selectedCategory(cat._id))}>{cat.name}</Nav.Link>
+                                                    ))
+                                                }
+                                            </Nav>
+                                            <Nav className="justify-content-end flex-grow-1 pe-3">
+                                                <ul className='d-flex m-0'>
+                                                    {user ? (
+                                                        <button className='btn btn-outline-light border-0' onClick={onLogout}>
+                                                            <FaSignOutAlt /> Logout
+                                                        </button>
+                                                    ) : (
+                                                        <>
+                                                            <li className='m-2 list-group' >
+                                                                <Link className='ink-offset-2 link-underline link-underline-opacity-0 text-secondary-emphasis' to="/Login" >
+                                                                    <FaSignInAlt />Login
+                                                                </Link>
+                                                            </li>
+                                                            <li className='m-2 list-group'>
+                                                                <Link className='ink-offset-2 link-underline link-underline-opacity-0 text-secondary-emphasis' to="/Register" >
+                                                                    <FaUser />Register
+                                                                </Link>
+                                                            </li>
+                                                        </>
+                                                    )}
+                                                </ul>
+                                            </Nav>
+                                        </Offcanvas.Body>
+                                    </Navbar.Offcanvas>
+                                </Container>
+                            </Navbar>
+                        ))}
+                    </>
+                ) : <>
+                    {['md'].map((expand) => (
+                        <Navbar key={expand} expand={expand} bg="dark" data-bs-theme="dark">
+                            <Container fluid>
+                                <Link className='ink-offset-2 link-underline link-underline-opacity-0' to="/" >
+                                    <Navbar.Brand to="/" >Skelbimai</Navbar.Brand>
+                                </Link>
+                                <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+                                <Navbar.Offcanvas
+                                    id={`offcanvasNavbar-expand-${expand}`}
+                                    aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+                                    placement="end"
+                                >
+                                    <Offcanvas.Header closeButton>
+                                        <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                                            Meniu
+                                        </Offcanvas.Title>
+                                    </Offcanvas.Header>
+                                    <Offcanvas.Body>
+                                        <Nav
+                                            title="Kategorijos"
+                                            id="basic-nav-dropdown"
+                                            className="d-flex text-secondary-emphasis">
+                                            <Nav.Link className='text-light ms-5' disabled>
+                                                Kategoriju nera
+                                            </Nav.Link>
+                                        </Nav>
+                                        <Nav className="justify-content-end flex-grow-1 pe-3">
+                                            <ul className='d-flex m-0'>
+                                                {user ? (
+                                                    <button className='btn btn-outline-light border-0' onClick={onLogout}>
+                                                        <FaSignOutAlt /> Logout
+                                                    </button>
+                                                ) : (
+                                                    <>
+                                                        <li className='m-2 list-group'>
+                                                            <Link className='ink-offset-2 link-underline link-underline-opacity-0 text-secondary-emphasis ' to="/Login" >
+                                                                <FaSignInAlt />Login
+                                                            </Link>
+                                                        </li>
+                                                        <li className='m-2 list-group'>
+                                                            <Link className='ink-offset-2 link-underline link-underline-opacity-0 text-secondary-emphasis' to="/Register" >
+                                                                <FaUser />Register
+                                                            </Link>
+                                                        </li>
+                                                    </>
+                                                )}
+                                            </ul>
+                                        </Nav>
+                                    </Offcanvas.Body>
+                                </Navbar.Offcanvas>
+                            </Container>
+                        </Navbar>
+                    ))}
+                </>
             }
         </div >
     )
