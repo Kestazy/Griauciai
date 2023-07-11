@@ -21,14 +21,13 @@ const AllAds = () => {
     }
 
     useEffect(() => {
-        console.log(category);
         // ifas pargrazinti visus duomenis be filtracijos
         if (category !== 'All') {
-            // filtruojamos salys
+            // filtruojamos categorijos
             const filtered = copyAds.filter((items) => items.category.includes(category));
             setAds(filtered);
         } else {
-            // priskiriamos visos salys
+            // priskiriamos visos categorijos
             setAds(copyAds);
         }
     }, [copyAds, category])

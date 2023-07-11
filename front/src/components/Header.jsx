@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
 import categoryService from '../services/categoryServise';
@@ -16,7 +17,7 @@ import { selectedCategory } from '../features/categorySlice'
 const Header = () => {
     const [categories, setCategories] = useState([]);
 
-    const { category } = useSelector((state) => state.category);
+    // const { category } = useSelector((state) => state.category);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const Header = () => {
         categoriesData();
     }, [])
 
-    console.log(categories)
+    console.log(categories);
 
     return (
         <div>
@@ -67,18 +68,21 @@ const Header = () => {
                                             </Offcanvas.Title>
                                         </Offcanvas.Header>
                                         <Offcanvas.Body>
-                                            <Nav
-                                                title="Kategorijos"
-                                                id="basic-nav-dropdown"
-                                                className="d-flex text-secondary-emphasis">
-                                                <Nav.Link className='ms-5' onClick={() => dispatch(selectedCategory('All'))}>
-                                                    Visi
-                                                </Nav.Link>
-                                                {
-                                                    categories.map((cat, index) => (
-                                                        <Nav.Link className='ms-3' key={index} onClick={() => dispatch(selectedCategory(cat._id))}>{cat.name}</Nav.Link>
-                                                    ))
-                                                }
+                                            <Nav className="me-auto">
+                                                <NavDropdown
+                                                    title="Kategorijos"
+                                                    id="basic-nav-dropdown"
+                                                    onClick={() => categoriesData()}
+                                                >
+                                                    <NavDropdown.Item onClick={() => dispatch(selectedCategory('All'))}>
+                                                        Visi
+                                                    </NavDropdown.Item>
+                                                    {
+                                                        categories.map((cat, index) => (
+                                                            <NavDropdown.Item key={index} onClick={() => dispatch(selectedCategory(cat._id))}>{cat.name}</NavDropdown.Item>
+                                                        ))
+                                                    }
+                                                </NavDropdown>
                                             </Nav>
                                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                                 <ul className='d-flex m-0'>
@@ -127,10 +131,7 @@ const Header = () => {
                                         </Offcanvas.Title>
                                     </Offcanvas.Header>
                                     <Offcanvas.Body>
-                                        <Nav
-                                            title="Kategorijos"
-                                            id="basic-nav-dropdown"
-                                            className="d-flex text-secondary-emphasis">
+                                        <Nav className="me-auto">
                                             <Nav.Link className='text-light ms-5' disabled>
                                                 Kategoriju nera
                                             </Nav.Link>

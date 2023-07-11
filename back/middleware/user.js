@@ -5,6 +5,7 @@ const NOT_AUTHORIZED = 'Not authorized';
 const NOT_AUTHORIZED_NO_TOKEN = 'Not authorized, no token';
 
 const getUser = async (req) => {
+    console.log(req.headers.authorization)
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             const token = req.headers.authorization.split(' ')[1];

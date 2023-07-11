@@ -26,12 +26,17 @@ const Login = () => {
     const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        if (isError){
+        if (isError) {
             toast.error(message)
         }
 
-        if (isSuccess || user){
-            navigate('/')
+        if (isSuccess || user) {
+            console.log(user);
+            if (user.role === 'admin') {
+                navigate('/admin')
+            } else {
+                navigate('/')
+            }
         }
 
         dispatch(reset())
@@ -54,8 +59,8 @@ const Login = () => {
         dispatch(login(userData));
     }
 
-    if(isLoading){
-        return <Spinner/>
+    if (isLoading) {
+        return <Spinner />
     }
 
     return (

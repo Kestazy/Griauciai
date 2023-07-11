@@ -6,7 +6,6 @@ const {
     getAllCategories
 } = require('../controllers/categoryController');
 
-const { protect } = require('../middleware/authMiddleware');
 const { protectAdmin } = require('../middleware/adminAuthMiddleware');
 
 
