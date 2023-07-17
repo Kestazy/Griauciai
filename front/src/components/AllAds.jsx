@@ -7,7 +7,7 @@ const AllAds = () => {
     const [ads, setAds] = useState([]);
     const [copyAds, setCopyAds] = useState([]);
 
-    const { category } = useSelector((state) => state.category);
+    const { myCategory } = useSelector((state) => state.myCategory);
 
     //gautus duomenis is API, isideti i state
     const adsData = () => {
@@ -22,15 +22,15 @@ const AllAds = () => {
 
     useEffect(() => {
         // ifas pargrazinti visus duomenis be filtracijos
-        if (category !== 'All') {
+        if (myCategory !== 'All') {
             // filtruojamos categorijos
-            const filtered = copyAds.filter((items) => items.category.includes(category));
+            const filtered = copyAds.filter((items) => items.category.includes(myCategory));
             setAds(filtered);
         } else {
             // priskiriamos visos categorijos
             setAds(copyAds);
         }
-    }, [copyAds, category])
+    }, [copyAds, myCategory])
 
     useEffect(() => {
         adsData();

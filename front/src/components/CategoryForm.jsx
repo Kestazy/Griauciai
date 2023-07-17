@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/esm/Container';
 import { useDispatch } from 'react-redux';
-import { setCategory } from '../features/categorySlice';
+import { setCategory } from '../features/categoriesSlice';
 
 
 const CategoryForm = () => {

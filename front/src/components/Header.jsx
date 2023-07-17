@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,19 +7,22 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
-import categoryService from '../services/categoryServise';
+// import categoryService from '../services/categoryServise';
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, reset } from '../features/authSlice';
-import { selectedCategory } from '../features/categorySlice'
+import { selectedCategory } from '../features/selectCatSlice'
+import { getCategories, resete } from '../features/categoriesSlice';
 
 const Header = () => {
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
+    const { categories, isError, message } = useSelector((state) => state.categories);
+
 
     const onLogout = () => {
         dispatch(logout());
@@ -27,19 +30,18 @@ const Header = () => {
         navigate('/');
     }
 
-    //gautus duomenis is API, isideti i state
-    const categoriesData = () => {
-        categoryService.getAllCategoriesData()
-            .then(res => {
-                if (res !== undefined) {
-                    setCategories(res);
-                }
-            })
-    }
-
+    
     useEffect(() => {
-        categoriesData();
-    }, [])
+        if (isError) {
+            console.log(message);
+        }
+
+        dispatch(getCategories());
+        return () => {
+            dispatch(resete())
+        }
+
+    }, [isError, message, dispatch]);
 
     console.log(categories);
 
@@ -70,7 +72,6 @@ const Header = () => {
                                                 <NavDropdown
                                                     title="Kategorijos"
                                                     id="basic-nav-dropdown"
-                                                    onClick={() => categoriesData()}
                                                 >
                                                     <NavDropdown.Item onClick={() => dispatch(selectedCategory('All'))}>
                                                         Visi

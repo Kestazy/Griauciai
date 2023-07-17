@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/esm/Container';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createAd } from '../features/adsSlice';
 
 const AllAds = () => {
@@ -16,6 +16,8 @@ const AllAds = () => {
     });
 
     const { title, description, price, img, category } = FormData;
+
+    const { categories } = useSelector((state) => state.categories);
 
     const dispatch = useDispatch();
 
@@ -57,12 +59,20 @@ const AllAds = () => {
                             placeholder='Url: https://img' />
                     </Form.Group>
                     <Form.Label>Pasirinkite kategorija</Form.Label>
-                    <Form.Select className="mb-3" aria-label="Default select example">
-                        <option>Kategorijos</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </Form.Select>
+                    {
+                        categories.length > 0 ? (
+                            <Form.Select className="mb-3" aria-label="Default select example">
+                                {
+                                    categories.map((item, index) => (
+                                <option  key={index}>{item.name}</option>
+                                    ))
+                                }
+                            </Form.Select>
+                        ) :
+                            <Form.Select className="mb-3" aria-label="Default select example">
+                                <option>Nera kategoriju</option>
+                            </Form.Select>
+                    }
                     <Button
                         variant="primary"
                         type="submit">

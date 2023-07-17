@@ -24,7 +24,7 @@ const UserAds = () => {
 
     }, [isError, message, dispatch]);
 
-    console.log(ads)
+    console.log(ads);
 
     if (isLoading) {
         return <Spinner />
