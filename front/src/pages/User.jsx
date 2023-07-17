@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import CategoryForm from '../components/CategoryForm'
-import AllAds from '../components/AllAds'
+import AdsForm from '../components/AdsForm'
+import UserAds from '../components/UserAds'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Admin = () => {
+const User = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -17,19 +17,14 @@ const Admin = () => {
             navigate('/login');
         }
 
-        if (user.role !== 'admin') {
-            navigate('/user');
-        }
-
     }, [user, navigate, dispatch]);
-    
 
     return (
         <div>
-            <CategoryForm />
-            <AllAds />
+            <AdsForm />
+            <UserAds />
         </div>
     )
 }
 
-export default Admin
+export default User

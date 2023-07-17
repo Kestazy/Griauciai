@@ -17,8 +17,6 @@ import { selectedCategory } from '../features/categorySlice'
 const Header = () => {
     const [categories, setCategories] = useState([]);
 
-    // const { category } = useSelector((state) => state.category);
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);

@@ -35,7 +35,7 @@ const Login = () => {
             if (user.role === 'admin') {
                 navigate('/admin')
             } else {
-                navigate('/')
+                navigate('/user')
             }
         }
 
@@ -90,7 +90,7 @@ const Login = () => {
                                 placeholder="Enter password"
                                 onChange={onChange} />
                         </Form.Group>
-                        <Button variant="primary" type="submit" >Submit</Button>
+                        <Button variant="primary" type="submit" >Prisijungti</Button>
                     </Form>
                 </section>
             </Container>

@@ -3,8 +3,6 @@ import Card from 'react-bootstrap/Card';
 
 const AdsCard = ({ads}) => {
 
-
-
   return (
     <div className='d-flex flex-wrap justify-content-center mt-3'>
       {

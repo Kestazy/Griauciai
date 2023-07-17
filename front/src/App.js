@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Header from './components/Header';
 import Admin from './pages/Admin';
+import User from './pages/User';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/admin' element={<Admin />} />
+        <Route path='/user' element={<User />} />
       </Routes>
     </Router>
   )
