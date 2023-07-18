@@ -22,6 +22,9 @@ const createAd = async (adData, token) => {
         },
     }
 
+    console.log(config)
+    console.log(adData)
+
     const response = await axios.post(API_URL, adData, config)
 
     return response.data

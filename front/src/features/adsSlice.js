@@ -15,7 +15,7 @@ export const createAd = createAsyncThunk(
     async (adData, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await adService.createad(adData, token)
+            return await adService.createAd(adData, token)
         } catch (error) {
             const message =
                 (error.response &&
