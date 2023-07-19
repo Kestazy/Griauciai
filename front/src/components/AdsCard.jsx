@@ -1,4 +1,3 @@
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 const AdsCard = ({ads}) => {
@@ -14,8 +13,6 @@ const AdsCard = ({ads}) => {
                   <Card.Title>{item.title}</Card.Title>
                   <Card.Text>{item.description}</Card.Text>
                   <Card.Text> Kaina: {item.price}</Card.Text>
-                  <Card.Text>{item.category}</Card.Text>
-                  <Button variant="outline-danger">Delete</Button>
                 </Card.Body>
               </Card>
             ))

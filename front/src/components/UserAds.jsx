@@ -1,9 +1,10 @@
-import { getUserAds, reset } from '../features/adsSlice';
+import { deleteAd, getUserAds, reset } from '../features/adsSlice';
 import React, { useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from './Spinner';
+import { toast } from 'react-toastify';
 
 
 const UserAds = () => {
@@ -26,6 +27,16 @@ const UserAds = () => {
 
     console.log(ads);
 
+    // skelbimo istrynimui su vartotojo informacija
+    const onClick = (item) => {
+        if (item === undefined) {
+            toast.error('Skelbimo istrinti nepavyko')
+        } else {
+            dispatch(deleteAd(item))
+            toast.success('Skelbimas istrintas')
+        }
+    }
+
     if (isLoading) {
         return <Spinner />
     }
@@ -40,8 +51,7 @@ const UserAds = () => {
                                 <Card.Title>{item.title}</Card.Title>
                                 <Card.Text>{item.description}</Card.Text>
                                 <Card.Text> Kaina: {item.price}</Card.Text>
-                                <Card.Text>{item.category}</Card.Text>
-                                <Button variant="outline-danger">Delete</Button>
+                                <Button variant="outline-danger" onClick={() => onClick(item._id)}>Delete</Button>
                             </Card.Body>
                         </Card>
                     ))

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/esm/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import { createAd } from '../features/adsSlice';
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 
 const AllAds = () => {
 
@@ -29,6 +29,7 @@ const AllAds = () => {
         }))
     }
 
+    console.log(formData)
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -47,8 +48,6 @@ const AllAds = () => {
             });
             toast.success('Skelbimas patalpintas sekmingai')
         }
-
-
     }
 
     return (
@@ -63,7 +62,7 @@ const AllAds = () => {
                             name='title'
                             value={title}
                             onChange={onChange}
-                            placeholder="Enter title" />
+                        />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Aprasymas</Form.Label>
@@ -99,6 +98,7 @@ const AllAds = () => {
                     {
                         categories.length > 0 ? (
                             <Form.Select className="mb-3" aria-label="Default select example" name='category' value={category} onChange={onChange}>
+                                <option value=''>Kategorijos</option>
                                 {
                                     categories.map((item, index) => (
                                         <option

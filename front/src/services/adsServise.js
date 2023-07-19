@@ -49,10 +49,24 @@ const getUserAds = async (token) => {
     }
 }
 
+// istrinti savo skelbima pagal id
+const deleteAd = async (adId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.delete(API_URL + '/' + adId, config)
+
+    return response.data
+}
+
 const adsService = {
     getAllAdsData,
     getUserAds,
-    createAd
+    createAd,
+    deleteAd
 }
 
 export default adsService

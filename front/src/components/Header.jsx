@@ -48,7 +48,7 @@ const Header = () => {
     return (
         <div>
             {
-                categories.length > 0 ? (
+                categories !== undefined && categories.length > 0 ? (
                     <>
                         {['md'].map((expand) => (
                             <Navbar key={expand} expand={expand} bg="dark" data-bs-theme="dark">
