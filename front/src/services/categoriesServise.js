@@ -30,9 +30,23 @@ const setCategory = async(categoryData, token) => {
     }
 }
 
+// istrinti kategorija pagal id
+const deleteCategory = async (categoryId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.delete(API_URL + '/' + categoryId, config)
+
+    return response.data
+}
+
 const categoryService = {
     getAllCategoriesData,
-    setCategory
+    setCategory,
+    deleteCategory
 }
 
 export default categoryService

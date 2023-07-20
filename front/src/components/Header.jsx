@@ -16,7 +16,6 @@ import { selectedCategory } from '../features/selectCatSlice'
 import { getCategories, resete } from '../features/categoriesSlice';
 
 const Header = () => {
-    // const [categories, setCategories] = useState([]);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -43,7 +42,7 @@ const Header = () => {
 
     }, [isError, message, dispatch]);
 
-    console.log(categories);
+    // console.log(categories);
 
     return (
         <div>

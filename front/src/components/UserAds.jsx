@@ -41,7 +41,9 @@ const UserAds = () => {
         return <Spinner />
     }
     return (
-        <div className='d-flex flex-wrap justify-content-center mt-3'>
+        <>
+            <h2 className='d-flex justify-content-center mt-3'>Mano skelbimai</h2>
+            <div className='d-flex flex-wrap justify-content-center mt-3'>
             {
                 ads !== undefined && ads.length > 0 ? (
                     ads.map((item, index) => (
@@ -58,6 +60,7 @@ const UserAds = () => {
                 ) : <h3>Jus neturite pridetu skelbimu</h3>
             }
         </div>
+        </>
     )
 }
 

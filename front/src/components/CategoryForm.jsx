@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/esm/Container';
 import { useDispatch } from 'react-redux';
 import { setCategory } from '../features/categoriesSlice';
+import { toast } from 'react-toastify';
 
 
 const CategoryForm = () => {
@@ -16,26 +17,27 @@ const CategoryForm = () => {
         e.preventDefault();
 
         dispatch(setCategory({name}));
+        toast.success('Kategorija prideta sekmingai')
         setName('');
     }
 
     return (
         <div>
-            <Container>
+            <Container className='m-4'>
                 <Form onSubmit={onSubmit} >
-                    <Form.Group className="mb-3" controlId="formBasicCategory">
-                        <Form.Label>Category</Form.Label>
+                    <Form.Group className="mb-3 w-50" controlId="formBasicCategory">
+                        <Form.Label>Kategorija</Form.Label>
                         <Form.Control 
                         type="text" 
                         name='name'
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter category" />
+                        placeholder="Iveskite kategorija" />
                     </Form.Group>
                     <Button 
                     variant="primary" 
                     type="submit">
-                        Add
+                        Prideti
                     </Button>
                 </Form>
             </Container>

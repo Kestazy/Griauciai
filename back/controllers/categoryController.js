@@ -37,7 +37,32 @@ const getAllCategories = asyncHandler(async (req, res) => {
   res.status(200).json(categories);
 })
 
+// @desc DELETE users category
+// @route DELETE /api/category/:id
+// @access PRIVATE
+
+const deleteCategory = asyncHandler( async (req, res) => {
+
+  const category = await Category.findById(req.params.id);
+
+  if(!category){
+      res.status(400);
+      throw new Error("Category not found");
+  }
+
+ //check for user
+  if(!req.user){
+      res.status(401);
+      throw new Error("User not found");
+  }
+
+  await category.deleteOne();
+
+  res.status(200).json({id : req.params.id});
+});
+
 module.exports = {
   setCategory,
-  getAllCategories
+  getAllCategories,
+  deleteCategory
 }

@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/esm/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import { createAd } from '../features/adsSlice';
 import { toast } from 'react-toastify';
+import { getCategories, resete } from '../features/categoriesSlice';
 
 const AllAds = () => {
 
@@ -18,9 +19,21 @@ const AllAds = () => {
 
     const { title, description, price, img, category } = FormData;
 
-    const { categories } = useSelector((state) => state.categories);
+    const { categories, isError, message } = useSelector((state) => state.categories);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (isError) {
+            console.log(message);
+        }
+
+        dispatch(getCategories());
+        return () => {
+            dispatch(resete())
+        }
+
+    }, [isError, message, dispatch]);
 
     const onChange = (e) => {
         setFormData((prevState) => ({
