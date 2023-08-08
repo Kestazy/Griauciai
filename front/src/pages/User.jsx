@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import AdsForm from '../components/AdsForm'
-import UserAds from '../components/UserAds'
+import React, { useEffect } from 'react';
+// import AdsForm from '../components/AdsForm';
+import UserAds from '../components/UserAds';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,7 +21,7 @@ const User = () => {
 
     return (
         <div>
-            <AdsForm />
+            {/* <AdsForm /> */}
             <UserAds />
         </div>
     )

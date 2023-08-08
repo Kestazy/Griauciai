@@ -28,6 +28,10 @@ const Ad = mongoose.model('Ad', new mongoose.Schema(
             required: true,
             ref: 'Category'
         },
+        status: {
+            type: String,
+            required: true
+        },
         date: {
             type: Date,
             default: Date.now

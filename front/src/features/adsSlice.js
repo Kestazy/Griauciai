@@ -47,6 +47,26 @@ export const getUserAds = createAsyncThunk(
     }
 )
 
+// update user ad
+export const updateAd = createAsyncThunk(
+    'ad/update',
+    async (adData, thunkAPI) => {
+        console.log(adData)
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await adsService.updateAd(adData, token)
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 //delete user ad
 export const deleteAd = createAsyncThunk(
     'ad/delete',
@@ -102,21 +122,35 @@ export const adSlice = createSlice({
                 state.message = action.payload
             })
 
-        .addCase(deleteAd.pending, (state) => {
-            state.isLoading = true
-        })
-        .addCase(deleteAd.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.isSuccess = true
-            state.ads = state.ads.filter(
-                (ad) => ad._id !== action.payload.id
-            )
-        })
-        .addCase(deleteAd.rejected, (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.message = action.payload
-        })
+            .addCase(updateAd.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateAd.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.ads = action.payload
+            })
+            .addCase(updateAd.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+
+            .addCase(deleteAd.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(deleteAd.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.ads = state.ads.filter(
+                    (ad) => ad._id !== action.payload.id
+                )
+            })
+            .addCase(deleteAd.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
     }
 });
 

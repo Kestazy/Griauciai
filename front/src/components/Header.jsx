@@ -6,8 +6,6 @@ import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-
-// import categoryService from '../services/categoryServise';
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +27,6 @@ const Header = () => {
         navigate('/');
     }
 
-    
     useEffect(() => {
         if (isError) {
             console.log(message);
@@ -40,7 +37,7 @@ const Header = () => {
             dispatch(resete())
         }
 
-    }, [isError, message, dispatch]);
+    }, [isError, message, dispatch, navigate]);
 
     // console.log(categories);
 
@@ -81,6 +78,9 @@ const Header = () => {
                                                         ))
                                                     }
                                                 </NavDropdown>
+                                            </Nav>
+                                            <Nav className="me-auto">
+                                                <Link className='nav-link ms-2' to="/admin">Mano Profilis</Link>
                                             </Nav>
                                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                                 <ul className='d-flex m-0'>

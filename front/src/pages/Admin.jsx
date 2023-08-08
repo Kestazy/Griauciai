@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import CategoryForm from '../components/CategoryForm'
-import AllAds from '../components/AllAds'
+import React, { useEffect, useState } from 'react';
+import CategoryForm from '../components/CategoryForm';
+import AdminAds from '../components/AdminAds';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCategory, getCategories, resete } from '../features/categoriesSlice';
@@ -10,6 +10,7 @@ import Spinner from '../components/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import adsService from '../services/adsServise';
+
 
 const Admin = () => {
     const [copyAds, setCopyAds] = useState([]);
@@ -37,11 +38,12 @@ const Admin = () => {
 
         if (!user) {
             navigate('/login');
+        } else {
+            if (user.role !== 'admin') {
+                navigate('/user');
+            }
         }
 
-        if (user.role !== 'admin') {
-            navigate('/user');
-        }
     }, [user, navigate, dispatch]);
 
     // prideti apsauga kategorijos trynimui
@@ -103,7 +105,7 @@ const Admin = () => {
                     </ListGroup>
             }
 
-            <AllAds />
+            <AdminAds />
         </div>
     )
 }

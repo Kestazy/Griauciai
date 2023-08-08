@@ -28,7 +28,8 @@ const setAd = asyncHandler(async (req, res) => {
         img,
         price,
         category,
-        user: req.user.id
+        user: req.user.id,
+        status: 'pending'
     })
     if (ad) {
         res.status(201).send(ad)
@@ -37,8 +38,6 @@ const setAd = asyncHandler(async (req, res) => {
         throw new Error('Invalid data')
     }
 })
-
-// get user's ads
 
 // @desc Get users ads
 // @route GET /api/ad/my
@@ -49,39 +48,68 @@ const getAds = asyncHandler(async (req, res) => {
     res.status(200).json(ads)
 })
 
+// @desc update users ad
+// @route PUT /api/ad/:id
+// @access PRIVATE
+
+const updateAd = asyncHandler(async (req, res) => {
+    const { title, description, price, img, category } = req.body
+    const result = await Ad.updateOne({
+        _id: req.params.id,
+    }, {
+        $set: {
+            title,
+            description,
+            img,
+            price,
+            category,
+            status: 'pending'
+        }
+    })
+    // res.send(result)
+    if (result.modifiedCount > 0) {
+        res.status(201).send(result)
+    } else {
+        res.status(400)
+        throw new Error('Invalid data')
+    }
+})
+
+
 // @desc DELETE users ad
 // @route DELETE /api/ad/:id
 // @access PRIVATE
 
-const deleteAd = asyncHandler( async (req, res) => {
+const deleteAd = asyncHandler(async (req, res) => {
 
     const ad = await Ad.findById(req.params.id);
 
-    if(!ad){
+    if (!ad) {
         res.status(400);
         throw new Error("Ad not found");
     }
 
-   //check for user
-    if(!req.user){
+    //check for user
+    if (!req.user) {
         res.status(401);
         throw new Error("User not found");
     }
-    
+
     //make sure the logged in user matches the ad user
-    if(ad.user.toString() !== req.user.id){
+    if (ad.user.toString() !== req.user.id) {
         res.status(401);
         throw new Error("User not authorized");
     }
 
     await ad.deleteOne();
 
-    res.status(200).json({id : req.params.id});
+    res.status(200).json({ id: req.params.id });
 });
 
 module.exports = {
     getAllAds,
     setAd,
     getAds,
+    updateAd,
     deleteAd
 }

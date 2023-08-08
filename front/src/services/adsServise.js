@@ -49,6 +49,27 @@ const getUserAds = async (token) => {
     }
 }
 
+// atnaujinti savo skelbima
+const updateAd = async (adData, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    try {
+        console.log(config)
+        console.log(adData)
+
+        const response = await axios.put(API_URL + '/' + adData.test, adData.formData, config)
+
+        console.log(response)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 // istrinti savo skelbima pagal id
 const deleteAd = async (adId, token) => {
     const config = {
@@ -66,6 +87,7 @@ const adsService = {
     getAllAdsData,
     getUserAds,
     createAd,
+    updateAd,
     deleteAd
 }
 

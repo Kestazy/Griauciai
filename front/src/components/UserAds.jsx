@@ -1,5 +1,6 @@
+import AdsForm from './AdsForm';
 import { deleteAd, getUserAds, reset } from '../features/adsSlice';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +9,11 @@ import { toast } from 'react-toastify';
 
 
 const UserAds = () => {
+
+    const [item, setItem] = useState('');
+    const [upAd, setUpAd] = useState('R')
+
+    console.log(item)
 
     const dispatch = useDispatch();
 
@@ -23,12 +29,11 @@ const UserAds = () => {
             dispatch(reset())
         }
 
-    }, [isError, message, dispatch]);
+    }, [isError, message, dispatch, upAd]);
 
-    console.log(ads);
 
     // skelbimo istrynimui su vartotojo informacija
-    const onClick = (item) => {
+    const handleClick = (item) => {
         if (item === undefined) {
             toast.error('Skelbimo istrinti nepavyko')
         } else {
@@ -37,29 +42,48 @@ const UserAds = () => {
         }
     }
 
+    // funkcija skelbimo redagavimui ir gryzimui prie formos
+    const handleUpdates = (btAd) => {
+        if (btAd._id !== item._id) {
+            setItem(btAd);
+
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        }
+    }
+
+    useEffect(() => {
+        setUpAd('R')
+        // console.log(upAd)
+    }, [upAd])
+
+    
+    console.log(ads)
+
     if (isLoading) {
         return <Spinner />
     }
     return (
         <>
+            <AdsForm item={item} setItem={setItem} upAd={upAd} setUpAd={setUpAd} />
             <h2 className='d-flex justify-content-center mt-3'>Mano skelbimai</h2>
             <div className='d-flex flex-wrap justify-content-center mt-3'>
-            {
-                ads !== undefined && ads.length > 0 ? (
-                    ads.map((item, index) => (
-                        <Card className='d-inline-flex m-2 h-50' key={index} style={{ width: '18rem' }}>
-                            <Card.Img className='img-fluid img-thumbnail' variant="top" src={item.img} />
-                            <Card.Body>
-                                <Card.Title>{item.title}</Card.Title>
-                                <Card.Text>{item.description}</Card.Text>
-                                <Card.Text> Kaina: {item.price}</Card.Text>
-                                <Button variant="outline-danger" onClick={() => onClick(item._id)}>Delete</Button>
-                            </Card.Body>
-                        </Card>
-                    ))
-                ) : <h3>Jus neturite pridetu skelbimu</h3>
-            }
-        </div>
+                {
+                    ads !== undefined && ads.length > 0 ? (
+                        ads.map((item, index) => (
+                            <Card className='d-inline-flex m-2 h-50' key={index} style={{ width: '18rem' }}>
+                                <Card.Img className='img-fluid img-thumbnail' variant="top" src={item.img} />
+                                <Card.Body>
+                                    <Card.Title>{item.title}</Card.Title>
+                                    <Card.Text>{item.description}</Card.Text>
+                                    <Card.Text> Kaina: {item.price}</Card.Text>
+                                    <Button className='m-2 ' variant="primary" onClick={() => handleUpdates(item)}>Atnaujinti</Button>
+                                    <Button className='m-2 ' variant="outline-danger" onClick={() => handleClick(item._id)}>Istrinti</Button>
+                                </Card.Body>
+                            </Card>
+                        ))
+                    ) : <h3>Jus neturite pridetu skelbimu</h3>
+                }
+            </div>
         </>
     )
 }
