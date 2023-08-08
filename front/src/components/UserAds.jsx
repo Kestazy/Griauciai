@@ -73,6 +73,22 @@ const UserAds = () => {
                             <Card className='d-inline-flex m-2 h-50' key={index} style={{ width: '18rem' }}>
                                 <Card.Img className='img-fluid img-thumbnail' variant="top" src={item.img} />
                                 <Card.Body>
+                                    {
+                                        item.status === 'public' ? (
+                                            <h6 className="card-subtitle mb-2 text-success">Jusu skelbimas matomas visiems</h6>
+                                        ) : (
+                                            <>
+                                            {
+                                                item.status !== 'block' ? (
+                                                    <h6 className="card-subtitle mb-2 text-body-secondary">Laukiama patvirtinimo</h6>
+                                                ) : (
+                                                    <h6 className="card-subtitle mb-2 text-danger">Skelbimas uzblokuotas, atnaujinkite duomenis</h6>
+                                                )
+                                            }
+                                            </>
+                                        )
+                                    }
+                                
                                     <Card.Title>{item.title}</Card.Title>
                                     <Card.Text>{item.description}</Card.Text>
                                     <Card.Text> Kaina: {item.price}</Card.Text>

@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import adsService from '../services/adsServise';
+import { updateAd, reset } from '../features/adsSlice';
+import { toast } from 'react-toastify';
 
 const AdminAds = () => {
     const [ads, setAds] = useState([]);
     const [copyAds, setCopyAds] = useState([]);
 
+    // skelbimu patvirtinimui ir blokavimui
+    const [formData, setFormData] = useState({
+        status: 'public'
+    });
+    const [test, setTest] = useState('')
+
+    // console.log(formData);
+    // console.log(test);
+
+
     const { myCategory } = useSelector((state) => state.myCategory);
+
+    const dispatch = useDispatch();
 
     //gautus duomenis is API, isideti i state
     const adsData = () => {
@@ -22,6 +35,7 @@ const AdminAds = () => {
             })
     }
 
+    // filtravimas pagal kategorija
     useEffect(() => {
         // ifas pargrazinti visus duomenis be filtracijos
         if (myCategory !== 'All') {
@@ -34,9 +48,35 @@ const AdminAds = () => {
         }
     }, [copyAds, myCategory])
 
+
+    const handleApproval = (id) => {
+        setTest('a/' + id)
+    }
+
+    const handleBlock = (id) => {
+        setTest('a/' + id)
+        setFormData({
+            status: 'block'
+        })
+    }
+
+    useEffect(() => {
+        if (test !== '') {
+            dispatch(updateAd({ formData, test }))
+            toast.success('Skelbimas atnaujintas sekmingai');
+            setTest('')
+            setFormData({
+                status: 'public'
+            })
+            return () => {
+                dispatch(reset())
+            }
+        }
+    }, [test])
+
     useEffect(() => {
         adsData();
-    }, [])
+    }, [test])
 
     return (
         <div className='d-flex flex-wrap justify-content-center mt-3'>
@@ -51,10 +91,10 @@ const AdminAds = () => {
                                     <Card.Text className="border-bottom mt-3"><span className='fw-medium'>Aprasymas:</span> {item.description}</Card.Text>
                                     <Card.Text className="border-bottom"><span className='fw-medium'>Kaina:</span> {item.price} €</Card.Text>
                                     {/* <Card.Text className="border-bottom"><span className='fw-medium'>komentarai:</span> {item.price} €</Card.Text> */}
-                                    <Button className='m-2 ' variant="success" type="submit">
+                                    <Button className='m-2 ' variant="success" type="submit" onClick={() => handleApproval(item._id)} >
                                         Patvirtinti
                                     </Button>
-                                    <Button className='m-2 ' variant="danger" type="submit">
+                                    <Button className='m-2 ' variant="danger" type="submit" onClick={() => handleBlock(item._id)}>
                                         Blokuoti
                                     </Button>
                                 </Card.Body>

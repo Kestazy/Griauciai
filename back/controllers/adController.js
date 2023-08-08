@@ -16,7 +16,7 @@ const getAllAds = asyncHandler(async (req, res) => {
 // @access Private (Only siple user)
 
 const setAd = asyncHandler(async (req, res) => {
-    const { title, description, price, img, category } = req.body
+    const { title, description, price, img, category, status } = req.body
     if (!title || !description || !img || !price || !category) {
         res.status(400)
         throw new Error('Please add all fields')
@@ -29,7 +29,7 @@ const setAd = asyncHandler(async (req, res) => {
         price,
         category,
         user: req.user.id,
-        status: 'pending'
+        status
     })
     if (ad) {
         res.status(201).send(ad)
@@ -53,7 +53,7 @@ const getAds = asyncHandler(async (req, res) => {
 // @access PRIVATE
 
 const updateAd = asyncHandler(async (req, res) => {
-    const { title, description, price, img, category } = req.body
+    const { title, description, price, img, category, status } = req.body
     const result = await Ad.updateOne({
         _id: req.params.id,
     }, {
@@ -63,7 +63,7 @@ const updateAd = asyncHandler(async (req, res) => {
             img,
             price,
             category,
-            status: 'pending'
+            status
         }
     })
     // res.send(result)

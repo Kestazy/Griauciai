@@ -7,7 +7,7 @@ import { createAd, updateAd, reset } from '../features/adsSlice';
 import { toast } from 'react-toastify';
 import { getCategories, resete } from '../features/categoriesSlice';
 
-const AllAds = ({ item, setItem, upAd, setUpAd }) => {
+const AllAds = ({ item, setItem, setUpAd }) => {
 
     // steitas skelbimo lauku
     const [formData, setFormData] = useState({
@@ -15,7 +15,8 @@ const AllAds = ({ item, setItem, upAd, setUpAd }) => {
         description: '',
         price: '',
         img: '',
-        category: ''
+        category: '',
+        status: 'pending'
     });
 
     console.log(item);
@@ -51,14 +52,15 @@ const AllAds = ({ item, setItem, upAd, setUpAd }) => {
 
     // formData ir propsu isvalymas atsaukus forma
     const handleCleaning = () => {
-        setItem('')
-
+        setItem('');
+        setTest('');
         setFormData({
             title: '',
             description: '',
             price: '',
             img: '',
-            category: ''
+            category: '',
+            status: 'pending'
         });
 
     }
@@ -85,7 +87,8 @@ const AllAds = ({ item, setItem, upAd, setUpAd }) => {
             description: item.description,
             price: item.price,
             img: item.img,
-            category: item.category
+            category: item.category,
+            status: 'pending'
         });
         setTest(item._id)
     }
